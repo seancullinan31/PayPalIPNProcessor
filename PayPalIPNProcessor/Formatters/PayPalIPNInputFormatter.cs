@@ -2,6 +2,7 @@
 using Microsoft.Net.Http.Headers;
 using PayPalIPNProcessor.Models;
 using System;
+using System.Globalization;
 using System.Net;
 using System.Reflection;
 using System.Text;
@@ -35,7 +36,8 @@ namespace PayPalIPNProcessor.Formatters
                 foreach(string key in request.Form.Keys)
                 {
                     string strVal = request.Form[key].ToString();
-                    rawBody.Append(WebUtility.UrlEncode(key) + "=" + WebUtility.UrlEncode(strVal) + "&");
+                    rawBody.Append(key + "=" + strVal + "&");
+                    strVal = WebUtility.UrlDecode(strVal);
                     if (key.StartsWith("item_name"))
                     {
                         PurchasedItem itm = addGetItemFromList(key, "item_name", ret);
@@ -99,8 +101,12 @@ namespace PayPalIPNProcessor.Formatters
                             if (propInfo.PropertyType == typeof(DateTime))
                             {
                                 DateTime val;
-                                if (DateTime.TryParse(strVal, out val))
+                                string[] formats = new string[] { "HH:mm:ss dd MMM yyyy PDT", "HH:mm:ss dd MMM yyyy PST",
+                                      "HH:mm:ss dd MMM, yyyy PST", "HH:mm:ss dd MMM, yyyy PDT",
+                                      "HH:mm:ss MMM dd, yyyy PST", "HH:mm:ss MMM dd, yyyy PDT" };
+                                if (DateTime.TryParseExact(strVal, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out val))
                                 {
+                                    val = TimeZoneInfo.ConvertTimeToUtc(val, TimeZoneInfo.FindSystemTimeZoneById("Pacific Standard Time"));
                                     propInfo.SetValue(ret, val, null);
                                 }
                             }
