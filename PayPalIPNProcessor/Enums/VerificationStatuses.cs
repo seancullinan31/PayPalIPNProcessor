@@ -4,6 +4,9 @@ using System.Text;
 
 namespace PayPalIPNProcessor.Enums
 {
+    /// <summary>
+    /// Enumerates the verification status types
+    /// </summary>
     public enum VerificationStatuses
     {
         /// <summary>

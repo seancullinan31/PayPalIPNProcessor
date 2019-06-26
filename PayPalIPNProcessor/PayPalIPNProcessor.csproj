@@ -11,12 +11,17 @@
     <PackageIconUrl>https://cdn4.iconfinder.com/data/icons/bettericons/354/paypal-circle-512.png</PackageIconUrl>
     <RepositoryUrl>https://github.com/seancullinan31/PayPalIPNProcessor/tree/master</RepositoryUrl>
     <PackageTags>PayPal, IPN, Payment Processing</PackageTags>
-    <PackageReleaseNotes>First Release.  may not contain all fields in serialized classes yet but will be expanded.</PackageReleaseNotes>
+    <PackageReleaseNotes>Contains many fields but there are some limitations.  Currently it doesn't support all of the following variables:
+Mass Pay Variables
+Pay message variables
+Preapproval message variables
+Adaptive accounts IPN messages
+You can get this information from the rawBody field if you need it in your application.</PackageReleaseNotes>
     <PackageProjectUrl>http://www.skctechnologies.com/paypalipnprocessor/</PackageProjectUrl>
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <PackageId>PayPal.IPN.Processor</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
   </PropertyGroup>
 
   <ItemGroup>

@@ -36,36 +36,94 @@ namespace PayPalIPNProcessor.Formatters
                 {
                     string strVal = request.Form[key].ToString();
                     rawBody.Append(WebUtility.UrlEncode(key) + "=" + WebUtility.UrlEncode(strVal) + "&");
-                    PropertyInfo propInfo = typeof(PayPalIPNRequest).GetProperty(key);
-                    if(propInfo != null)
+                    if (key.StartsWith("item_name"))
                     {
-                        if (propInfo.PropertyType == typeof(DateTime))
+                        PurchasedItem itm = addGetItemFromList(key, "item_name", ret);
+                        itm.item_name = strVal;
+                    }
+                    else if (key.StartsWith("item_number"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "item_number", ret);
+                        itm.item_number = strVal;
+                    }
+                    else if (key.StartsWith("quantity"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "quantity", ret);
+                        int val;
+                        if(int.TryParse(strVal, out val))
                         {
-                            DateTime val;
-                            if (DateTime.TryParse(strVal, out val))
-                            {
-                                propInfo.SetValue(ret, val, null);
-                            }
+                            itm.quantity = val;
                         }
-                        else if (propInfo.PropertyType == typeof(int))
+                    }
+                    else if (key.StartsWith("mc_gross"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "mc_gross", ret);
+                        double val;
+                        if (double.TryParse(strVal, out val))
                         {
-                            int val;
-                            if (int.TryParse(strVal, out val))
-                            {
-                                propInfo.SetValue(ret, val, null);
-                            }
+                            itm.mc_gross = val;
                         }
-                        else if (propInfo.PropertyType == typeof(double))
+                    }
+                    else if (key.StartsWith("mc_shipping"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "mc_shipping", ret);
+                        double val;
+                        if (double.TryParse(strVal, out val))
                         {
-                            double val;
-                            if (double.TryParse(strVal, out val))
-                            {
-                                propInfo.SetValue(ret, val, null);
-                            }
+                            itm.mc_gross = val;
                         }
-                        else
+                    }
+                    else if (key.StartsWith("option_name"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "option_name", ret);
+                        itm.item_number = strVal;
+                    }
+                    else if (key.StartsWith("option_selection"))
+                    {
+                        PurchasedItem itm = addGetItemFromList(key, "option_selection", ret);
+                        itm.item_number = strVal;
+                    }
+                    else if (key.StartsWith("fraud_management_pending_filters_"))
+                    {
+                        int val;
+                        if (int.TryParse(strVal, out val))
                         {
-                            propInfo.SetValue(ret, strVal, null);
+                            ret.fraud_management_pending_filters.Add(val);
+                        }
+                    }
+                    else
+                    {
+                        PropertyInfo propInfo = typeof(PayPalIPNRequest).GetProperty(key);
+                        if (propInfo != null)
+                        {
+                            if (propInfo.PropertyType == typeof(DateTime))
+                            {
+                                DateTime val;
+                                if (DateTime.TryParse(strVal, out val))
+                                {
+                                    propInfo.SetValue(ret, val, null);
+                                }
+                            }
+                            else if (propInfo.PropertyType == typeof(int))
+                            {
+                                int val;
+                                if (int.TryParse(strVal, out val))
+                                {
+                                    propInfo.SetValue(ret, val, null);
+                                }
+                            }
+                            else if (propInfo.PropertyType == typeof(double))
+                            {
+                                double val;
+                                if (double.TryParse(strVal, out val))
+                                {
+                                    propInfo.SetValue(ret, val, null);
+                                }
+                            }
+                            else
+                            {
+                                propInfo.SetValue(ret, strVal, null);
+                            }
                         }
                     }
                 }
@@ -77,7 +135,30 @@ namespace PayPalIPNProcessor.Formatters
                 Console.WriteLine(e.ToString());
                 return await InputFormatterResult.FailureAsync();
             }
-            
+        }
+        private int getItemNumber(string key, string keyUpToNumber)
+        {
+            string strNumPart = key.Replace(keyUpToNumber, "");
+            int ret;
+            if(int.TryParse(strNumPart, out ret))
+            {
+                return ret;
+            } else
+            {
+                return 0;
+            }
+        }
+        private PurchasedItem addGetItemFromList(string key, string keyUpToNumber, PayPalIPNRequest ret)
+        {
+            int itemIndex = getItemNumber(key, keyUpToNumber);
+            PurchasedItem itm = ret.purchased_items.Find(item => item.index == itemIndex);
+            if (itm == null)
+            {
+                itm = new PurchasedItem();
+                itm.index = itemIndex;
+                ret.purchased_items.Add(itm);
+            }
+            return itm;
         }
     }
 }
