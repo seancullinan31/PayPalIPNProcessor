@@ -14,3 +14,12 @@ options.InputFormatters.Insert(0, new PayPalIPNInputFormatter());
 That is the trickiest part. After that just follow the sample app in your application and start processing PayPal IPN Requests!
 
 The Postman Collection can be used by the Postman tool located at https://www.getpostman.com/ to generate requests for you to test this. Note that if you use this collection your results will come back as Invalid since the data fed in didn't come from PayPal. This is expected but the tests still show you how the flow of this works and the message that you will get back.
+
+This application contains many fields from IPN Messages but there are some limitations. Currently it doesn't support all of the following variables:
+Mass Pay Variables
+Pay message variables
+Preapproval message variables
+Adaptive accounts IPN messages
+You can get this information from the rawBody field if you need it in your application.
+
+Please feel free to fork and contribute to add this functionality!
