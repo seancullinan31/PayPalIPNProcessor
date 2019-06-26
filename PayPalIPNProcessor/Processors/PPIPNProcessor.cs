@@ -1,5 +1,4 @@
-﻿using PayPalIPNProcessor.Enums;
-using PayPalIPNProcessor.Models;
+﻿using PayPalIPNProcessor.Models;
 using System;
 using System.IO;
 using System.Net;
@@ -7,13 +6,13 @@ using System.Text;
 
 namespace PayPalIPNProcessor.Processors
 {
-    public class PayPalIPNProcessor
+    public class PPIPNProcessor
     {
         #region "ctor"
         /// <summary>
         /// Default Constructor that assumes production instance of PayPal
         /// </summary>
-        public PayPalIPNProcessor()
+        public PPIPNProcessor()
         {
 
         }
@@ -21,7 +20,7 @@ namespace PayPalIPNProcessor.Processors
         /// Constructor that lets you set IsSandbox to True so that you can hit PayPal's sandbox for return message
         /// </summary>
         /// <param name="IsSandBox"></param>
-        public PayPalIPNProcessor(Boolean IsSandBox)
+        public PPIPNProcessor(Boolean IsSandBox)
         {
             if(IsSandBox)
             {
