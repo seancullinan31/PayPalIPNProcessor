@@ -21,7 +21,7 @@ You can get this information from the rawBody field if you need it in your appli
     <PackageLicenseFile>license.txt</PackageLicenseFile>
     <RepositoryType>git</RepositoryType>
     <PackageId>PayPal.IPN.Processor</PackageId>
-    <Version>1.0.2</Version>
+    <Version>1.0.3</Version>
   </PropertyGroup>
 
   <ItemGroup>
