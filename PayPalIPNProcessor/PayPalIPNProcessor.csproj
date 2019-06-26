@@ -2,10 +2,30 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>Sean Cullinan</Authors>
+    <Company>SKC technologies</Company>
+    <Product>PayPal IPN Processor</Product>
+    <Description>This library makes it easy to process PayPal IPN data in your WebAPI projects.  Simply add the custom InputFormatter to your Startup.cs file when configuring services, setup your controller to accept an object of our PayPalIPNRequest type and invoke the process method.  At that point you will have a verified IPN object that you can easily work with as needed to integrate PayPal IPN messages into your application and workflows!</Description>
+    <Copyright>2019</Copyright>
+    <PackageLicenseExpression></PackageLicenseExpression>
+    <PackageIconUrl>https://cdn4.iconfinder.com/data/icons/bettericons/354/paypal-circle-512.png</PackageIconUrl>
+    <RepositoryUrl>https://github.com/seancullinan31/PayPalIPNProcessor/tree/master</RepositoryUrl>
+    <PackageTags>PayPal, IPN, Payment Processing</PackageTags>
+    <PackageReleaseNotes>First Release.  may not contain all fields in serialized classes yet but will be expanded.</PackageReleaseNotes>
+    <PackageProjectUrl>http://www.skctechnologies.com/paypalipnprocessor/</PackageProjectUrl>
+    <PackageLicenseFile>license.txt</PackageLicenseFile>
+    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.2.5" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="license.txt">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
