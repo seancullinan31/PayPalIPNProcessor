@@ -1,4 +1,4 @@
-# PayPalIPNProcessor
+# PayPal IPN Processor
 
 Easily Process PayPal IPN Messages with this Class Library for .NET Standard
 
